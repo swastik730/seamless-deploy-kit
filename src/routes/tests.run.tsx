@@ -398,7 +398,23 @@ function Runner({
         </div>
 
         <div className="surface mb-4 space-y-2 p-4">
+          <button
+            type="button"
+            disabled={!report}
+            onClick={() => {
+              if (!report) return;
+              void downloadAttemptPdf(report).catch(() =>
+                toast.error("Could not create the PDF", { description: "Please try again." }),
+              );
+            }}
+            className="brand-gradient grid h-12 w-full place-items-center rounded-xl text-sm font-extrabold text-primary-foreground disabled:opacity-50"
+          >
+            <span className="inline-flex items-center gap-2">
+              <Download className="h-4 w-4" /> Download PDF report
+            </span>
+          </button>
           <div className="flex gap-2">
+
             <button
               type="button"
               onClick={() => void navigate({ to: "/tests" })}

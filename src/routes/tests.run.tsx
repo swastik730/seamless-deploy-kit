@@ -342,6 +342,13 @@ function Runner({
     const band = gradeBand(pct);
     const spent = search.minutes * 60 - left;
     const avg = Math.round(spent / questions.length);
+    const report = attemptRef.current
+      ? buildAttemptReport(attemptRef.current, pool, {
+          studentName: state.name,
+          allAttempts: state.attempts,
+        })
+      : null;
+
     return (
       <AppShell title="Test Result">
         <div className="brand-gradient mb-4 rounded-3xl p-6 text-center text-primary-foreground">

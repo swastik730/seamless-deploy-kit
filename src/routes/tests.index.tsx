@@ -98,6 +98,23 @@ function TestsPage() {
         imageAlt="Exam clipboard with answer sheet and stopwatch"
         tint="amber"
       />
+
+      <Link
+        to="/exam"
+        className="purple-panel mb-6 flex items-center gap-3 p-4 shadow-[var(--shadow-card)] transition-transform active:scale-[0.99]"
+      >
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-background/70 text-hero-purple">
+          <ShieldCheck className="h-5 w-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-extrabold">Exam Hub</span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">
+            Ranked Grand Test, 3-hour Exam Day Simulator and adaptive weak-chapter drills
+          </span>
+        </span>
+        <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+      </Link>
+
       <h2 className="mb-1 flex items-center gap-2 text-base font-bold">
         <Trophy className="h-4 w-4 text-hero-amber" /> Test Series
       </h2>

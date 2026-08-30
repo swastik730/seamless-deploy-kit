@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, BookOpen, Boxes, Cloud, CloudOff, GraduationCap, Home, Loader2, LayoutGrid, Moon, PenLine, Sparkles, Sun, Timer, TrendingUp, User } from "lucide-react";
+import { Bell, BookOpen, Boxes, Cloud, CloudOff, GraduationCap, Home, Loader2, LayoutGrid, Moon, PenLine, ShieldCheck, Sparkles, Sun, Timer, TrendingUp, User } from "lucide-react";
 import type { ReactNode } from "react";
 import logoUrl from "@/assets/logo.webp";
 import { AdBanner, AdInterstitial } from "@/components/ads/AdManager";
@@ -11,14 +11,27 @@ import { useAppState, useSyncStatus } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 
+/** Full navigation — desktop sidebar. */
 const NAV = [
   { to: "/", label: "Home", icon: Home },
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/practice", label: "Practice", icon: PenLine },
   { to: "/tests", label: "Tests", icon: Timer },
+  { to: "/exam", label: "Exam Hub", icon: ShieldCheck },
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/more", label: "More", icon: LayoutGrid },
 ] as const;
+
+/** Phone bottom bar — six tabs so every target stays thumb-sized. */
+const MOBILE_NAV = [
+  { to: "/", label: "Home", icon: Home },
+  { to: "/learn", label: "Learn", icon: BookOpen },
+  { to: "/practice", label: "Practice", icon: PenLine },
+  { to: "/tests", label: "Tests", icon: Timer },
+  { to: "/exam", label: "Exam", icon: ShieldCheck },
+  { to: "/more", label: "More", icon: LayoutGrid },
+] as const;
+
 
 export function BrandMark({ className }: { className?: string }) {
   const customLogo = useAppLogo();

@@ -275,6 +275,32 @@ function Runner({
   const correctCount = questions.filter((q) => answers[q.id] === q.answer).length;
   const attempted = questions.filter((q) => answers[q.id] !== undefined).length;
 
+  // Frozen snapshot of the submitted attempt — also feeds the PDF report.
+  const attemptRef = useRef<Attempt | null>(null);
+  if (submitted && !attemptRef.current && questions.length > 0) {
+    attemptRef.current = {
+      id: crypto.randomUUID(),
+      mode: "test",
+      label: search.title,
+      subjectId: search.subject,
+      ...(search.chapter === "all" ? {} : { chapterId: search.chapter }),
+      ...(search.test ? { testId: search.test } : {}),
+      total: questions.length,
+      correct: correctCount,
+      unanswered: questions.length - attempted,
+      seconds: search.minutes * 60 - left,
+      date: new Date().toISOString(),
+      perQuestion: questions.map((q) => ({
+        questionId: q.id,
+        difficulty: q.difficulty,
+        correct: answers[q.id] === q.answer,
+        answered: answers[q.id] !== undefined,
+      })),
+    };
+  }
+
+
+
   useEffect(() => {
     if (!submitted) return;
     clearProgress(runKey);

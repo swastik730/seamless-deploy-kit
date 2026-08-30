@@ -10,6 +10,8 @@ import {
   LineChart,
   Medal,
   NotebookText,
+  ShieldCheck,
+
   Sparkles,
   Trophy,
   User,

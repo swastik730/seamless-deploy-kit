@@ -15,6 +15,8 @@ Everything — preview, published site and the Cloudflare Worker — must point 
    - `supabase/FULL_SETUP.sql` (tables, RLS, grants, RPCs, owner role)
    - `supabase/PLANS_FEATURE_PARITY.sql` (plan catalogue + feature lines)
    - `supabase/FIX_EMAIL_CONFIRM.sql`
+   - `supabase/GRAND_TEST_RANK.sql` (rank + percentile RPC used by Exam Hub)
+
 3. **Authentication → Sign In / Providers → Email**: turn **Confirm email OFF**.
    Accounts use a synthetic address `<username>@boardbuddy.app`, which can never
    receive a confirmation mail.

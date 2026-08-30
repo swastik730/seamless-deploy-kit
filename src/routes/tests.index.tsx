@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ClipboardList, CheckCircle2, ChevronRight, Loader2, RotateCcw, Sliders, Timer, Trophy } from "lucide-react";
+import { ClipboardList, CheckCircle2, ChevronRight, Loader2, RotateCcw, ShieldCheck, Sliders, Timer, Trophy } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { SUBJECTS, getSubject } from "@/lib/curriculum";
 import { filterPool, useQuestionPool } from "@/lib/questions";

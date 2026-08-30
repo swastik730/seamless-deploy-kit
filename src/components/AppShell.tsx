@@ -218,7 +218,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
         <AdBanner />
 
         <ul className="grid grid-cols-6">
-          {NAV.map(({ to, label, icon: Icon }) => {
+          {MOBILE_NAV.map(({ to, label, icon: Icon }) => {
             const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
             return (
               <li key={to}>

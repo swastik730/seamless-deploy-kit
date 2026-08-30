@@ -78,6 +78,21 @@ const GROUPS: {
     heading: "Progress",
     items: [
       {
+        to: "/exam",
+        label: "Exam Hub",
+        hint: "Grand Test, Exam Day Simulator and weak-chapter drills",
+        icon: ShieldCheck,
+        tint: "bg-hero-purple/15 text-hero-purple",
+      },
+      {
+        to: "/progress",
+        label: "Progress",
+        hint: "Streaks, daily goal and study time",
+        icon: LineChart,
+        tint: "bg-success-soft text-success",
+      },
+
+      {
         to: "/analysis",
         label: "Analysis",
         hint: "Strong and weak chapters",

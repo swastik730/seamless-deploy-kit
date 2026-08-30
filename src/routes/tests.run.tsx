@@ -207,6 +207,8 @@ function Runner({
 }) {
   const navigate = useNavigate();
   const state = useAppState();
+  const { pool } = useQuestionPool();
+
   const [index, setIndex] = useState(saved?.index ?? 0);
   const [answers, setAnswers] = useState<Record<string, number>>(saved?.answers ?? {});
   const [marked, setMarked] = useState<Record<string, boolean>>(saved?.marked ?? {});

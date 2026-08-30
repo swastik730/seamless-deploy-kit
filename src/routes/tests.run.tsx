@@ -1,17 +1,20 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Loader2, ShieldCheck, Timer, Trophy } from "lucide-react";
+import { Download, Loader2, ShieldCheck, Timer, Trophy } from "lucide-react";
+import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { AttemptGuard } from "@/components/exam/AttemptGuard";
 import { ExamRunner } from "@/components/exam/ExamRunner";
 import { ResultBreakdown } from "@/components/exam/ResultBreakdown";
 import { SolutionCard } from "@/components/exam/SolutionCard";
 import type { Question } from "@/lib/curriculum";
+import { buildAttemptReport, downloadAttemptPdf } from "@/lib/attemptReport";
 import { dedupeQuestions, filterPool, useQuestionPool, useShuffleSeed } from "@/lib/questions";
 import { findTest, questionsForTest } from "@/lib/testEngine";
 import { HARD, gradeBand, netPercent, netScore, pickHard } from "@/lib/difficulty";
 import { clearProgress, loadProgress, saveProgress, type RunProgress } from "@/lib/testProgress";
-import { recordAttempt, toggleBookmark, useAppState, useSeenQuestionIds } from "@/lib/store";
+import { recordAttempt, toggleBookmark, useAppState, useSeenQuestionIds, type Attempt } from "@/lib/store";
+
 
 type Search = {
   test: string;

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, Download, Loader2, Upload, XCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { logAudit } from "@/lib/audit";
-import { CSV_TEMPLATE, parseCsv, validateRows, type ParsedQuestion, type RowIssue } from "@/lib/csv";
+import { CSV_TEMPLATE, parseCsv, validateRows, verifyQuestion, type ParsedQuestion, type RowIssue } from "@/lib/csv";
 import { SUBJECTS } from "@/lib/curriculum";
 
 export const Route = createFileRoute("/owner/content")({
@@ -31,6 +31,8 @@ type Summary = {
   reviewReasons: RowIssue[];
 };
 
+
+const chapterIds = SUBJECTS.flatMap((s) => s.chapters.map((c) => c.id));
 
 function OwnerContent() {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -261,8 +263,18 @@ function OwnerContent() {
       {summary && (
         <div className="surface mb-4 p-5 text-xs">
           <p className="text-sm font-bold">{summary.fileName}</p>
-          <p className="mt-1 text-success">{summary.inserted} questions add hue (review me)</p>
-          <p className="text-muted-foreground">{summary.duplicates} duplicate skip hue</p>
+          <p className="mt-1 text-success">
+            {summary.published} auto-verified &amp; published
+          </p>
+          <p className="text-warning">{summary.needsReview} needs review (verification failed)</p>
+          <p className="text-muted-foreground">
+            {summary.inserted} total added · {summary.duplicates} duplicates skipped
+          </p>
+          {summary.reviewReasons.slice(0, 8).map((i) => (
+            <p key={`rev-${i.line}`} className="mt-1 text-muted-foreground">
+              Row {i.line}: {i.reason}
+            </p>
+          ))}
           {[...summary.invalid, ...summary.fileDuplicates].slice(0, 12).map((i) => (
             <p key={`${i.line}-${i.reason}`} className="mt-1 text-destructive">
               Line {i.line}: {i.reason}

@@ -143,6 +143,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
 
   useEffect(() => {
     installErrorMonitoring();
@@ -152,6 +153,19 @@ function RootComponent() {
       else window.addEventListener("load", register, { once: true });
     }
   }, []);
+
+  // GA4 page views on client-side route changes (gtag only auto-tracks first load).
+  useEffect(() => {
+    return router.subscribe("onResolved", () => {
+      const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+      w.gtag?.("event", "page_view", {
+        page_path: window.location.pathname + window.location.search,
+        page_title: document.title,
+      });
+    });
+  }, [router]);
+
+
 
 
   return (

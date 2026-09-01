@@ -23,10 +23,14 @@ type BankRow = {
 type Summary = {
   fileName: string;
   inserted: number;
+  published: number;
+  needsReview: number;
   duplicates: number;
   invalid: RowIssue[];
   fileDuplicates: RowIssue[];
+  reviewReasons: RowIssue[];
 };
+
 
 function OwnerContent() {
   const fileRef = useRef<HTMLInputElement>(null);

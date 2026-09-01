@@ -163,3 +163,45 @@ export function validateRows(rows: string[][], knownSubjects: string[]): Validat
 
   return { valid, invalid, duplicateInFile };
 }
+
+/* ------------------------------------------------------------------ */
+/* Auto-verification: quality gate before a question can be published. */
+/* ------------------------------------------------------------------ */
+
+export type Verification = { ok: boolean; issues: string[] };
+
+const PLACEHOLDER = /^(n\/?a|na|none|-|--|tbd|todo|xxx|test|abcd?)$/i;
+
+/**
+ * Deep quality check for a single question. A question is auto-published only
+ * when every rule below passes; otherwise it lands in "review" for the owner.
+ */
+export function verifyQuestion(q: ParsedQuestion, knownChapters?: string[]): Verification {
+  const issues: string[] = [];
+  const question = q.question.trim();
+
+  if (question.length < 10) issues.push("Question too short (min 10 characters)");
+  if (question.length > 600) issues.push("Question too long (max 600 characters)");
+  if (PLACEHOLDER.test(question)) issues.push("Question looks like placeholder text");
+
+  const opts = q.options.map((o) => o.trim());
+  if (opts.some((o) => o.length === 0)) issues.push("An option is empty");
+  if (opts.some((o) => o.length > 200)) issues.push("An option is too long (max 200 characters)");
+  if (opts.some((o) => PLACEHOLDER.test(o))) issues.push("An option looks like placeholder text");
+
+  const uniq = new Set(opts.map((o) => normalise(o)));
+  if (uniq.size !== opts.length) issues.push("Two or more options are identical");
+
+  if (q.correct_index < 0 || q.correct_index > 3) issues.push("Correct answer index is out of range");
+  else if (!opts[q.correct_index]) issues.push("Correct option is empty");
+
+  if (!["easy", "medium", "hard"].includes(q.difficulty)) issues.push("Difficulty must be easy/medium/hard");
+
+  if (knownChapters && knownChapters.length > 0 && !knownChapters.includes(q.chapter_id))
+    issues.push(`Unknown chapter_id "${q.chapter_id}"`);
+
+  const expl = (q.explanation ?? "").trim();
+  if (expl.length > 0 && expl.length < 8) issues.push("Explanation too short — write at least one full line");
+
+  return { ok: issues.length === 0, issues };
+}

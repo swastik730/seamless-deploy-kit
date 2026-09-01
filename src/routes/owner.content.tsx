@@ -79,7 +79,10 @@ function OwnerContent() {
       const result = validateRows(parsed, SUBJECTS.map((s) => s.id));
 
       let inserted = 0;
+      let published = 0;
+      let needsReview = 0;
       let duplicates = 0;
+      const reviewReasons: RowIssue[] = [];
 
       if (result.valid.length > 0) {
         const hashes = result.valid.map((v) => v.content_hash);
@@ -97,33 +100,46 @@ function OwnerContent() {
         });
 
         for (let i = 0; i < fresh.length; i += 100) {
-          const chunk = fresh.slice(i, i + 100).map((v) => ({
-            subject_id: v.subject_id,
-            chapter_id: v.chapter_id,
-            difficulty: v.difficulty,
-            question: v.question,
-            options: v.options,
-            correct_index: v.correct_index,
-            explanation: v.explanation || null,
-            source: v.source || null,
-            content_hash: v.content_hash,
-            status: "review",
-          }));
+          const chunk = fresh.slice(i, i + 100).map((v, j) => {
+            const check = verifyQuestion(v, chapterIds);
+            if (check.ok) published += 1;
+            else {
+              needsReview += 1;
+              if (reviewReasons.length < 20)
+                reviewReasons.push({ line: i + j + 2, reason: check.issues.join(" · ") });
+            }
+            return {
+              subject_id: v.subject_id,
+              chapter_id: v.chapter_id,
+              difficulty: v.difficulty,
+              question: v.question,
+              options: v.options,
+              correct_index: v.correct_index,
+              explanation: v.explanation || null,
+              source: v.source || null,
+              content_hash: v.content_hash,
+              status: check.ok ? "published" : "review",
+            };
+          });
           const { error: insertError } = await supabase.from("questions").insert(chunk);
           if (insertError) throw new Error(insertError.message);
           inserted += chunk.length;
         }
 
-        await logAudit("content.import", { file: sourceName, inserted, duplicates });
+        await logAudit("content.import", { file: sourceName, inserted, published, needsReview, duplicates });
       }
 
       setSummary({
         fileName: sourceName,
         inserted,
+        published,
+        needsReview,
         duplicates,
         invalid: result.invalid,
         fileDuplicates: result.duplicateInFile,
+        reviewReasons,
       });
+
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Import failed");

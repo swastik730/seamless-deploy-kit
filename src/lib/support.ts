@@ -84,8 +84,8 @@ export async function saveSupportSettings(next: SupportSettings) {
  * Who gets what kind of support
  * ------------------------------------------------------------------ *
  *  - "direct" → Max Pro (or subscriptions switched off): call / WhatsApp /
- *    email, i.e. seedha team se baat.
- *  - "email"  → any other active paid plan: Gmail par hi baat hogi.
+ *    email, i.e. direct contact with the team.
+ *  - "email"  → any other active paid plan: email support only.
  *  - "none"   → free students: no support desk, only self-help.
  */
 export type SupportTier = "none" | "email" | "direct";

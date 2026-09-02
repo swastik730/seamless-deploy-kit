@@ -140,3 +140,38 @@ $$;
 REVOKE ALL ON FUNCTION public.get_test_rank(text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.get_test_rank(text) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.get_test_rank(text) TO service_role;
+
+-- ============================================================
+-- 4) FIX: a failed payment attempt must never cancel an active plan
+--    (Razorpay sends payment.failed for earlier tries on the same order)
+-- ============================================================
+CREATE OR REPLACE FUNCTION public.server_mark_subscription(_token text, _status text, _order_id text DEFAULT NULL, _payment_id text DEFAULT NULL, _expire_now boolean DEFAULT false)
+RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE _now timestamptz := now();
+BEGIN
+  IF NOT public.server_token_ok(_token) THEN
+    RAISE EXCEPTION 'invalid server token';
+  END IF;
+  IF _status NOT IN ('pending','failed','cancelled','refunded') THEN
+    RAISE EXCEPTION 'unsupported status';
+  END IF;
+  UPDATE public.subscriptions
+  SET status = _status,
+      expires_at = CASE WHEN _expire_now THEN _now ELSE expires_at END,
+      updated_at = _now
+  WHERE ((_payment_id IS NOT NULL AND razorpay_payment_id = _payment_id)
+      OR (_payment_id IS NULL AND _order_id IS NOT NULL AND razorpay_order_id = _order_id))
+    AND (_status NOT IN ('failed','pending') OR status <> 'active');
+  RETURN true;
+END;
+$$;
+REVOKE ALL ON FUNCTION public.server_mark_subscription(text, text, text, text, boolean) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.server_mark_subscription(text, text, text, text, boolean) TO anon, authenticated;
+
+-- Repair any plan that was wrongly switched off by a failed retry:
+UPDATE public.subscriptions
+SET status = 'active', updated_at = now()
+WHERE status = 'failed'
+  AND razorpay_payment_id IS NOT NULL
+  AND expires_at IS NOT NULL
+  AND expires_at > now();

@@ -3,7 +3,7 @@
  *
  * Rules (fixed):
  *  - Free students  → no support desk at all, only self-help answers.
- *  - Paid students  → Gmail par hi baat hogi (email only).
+ *  - Paid students  → email support only.
  *  - Max Pro        → direct contact: call, WhatsApp aur Gmail.
  *
  * Contact details are owner-editable in /owner/support.
@@ -47,8 +47,8 @@ function SupportPage() {
             {tier === "direct"
               ? "Max Pro — direct contact with the team."
               : tier === "email"
-                ? "Premium — Gmail par reply milega."
-                : "Support desk premium plans ke saath aata hai."}
+                ? "Premium — we reply by email."
+                : "The support desk comes with premium plans."}
           </p>
         </div>
       </div>
@@ -62,8 +62,8 @@ function SupportPage() {
           </span>
           <p className="mt-3 text-sm font-extrabold">Support is for premium students</p>
           <p className="mt-1 text-xs font-medium text-muted-foreground">
-            Free plan mein support desk nahi milta. Kisi bhi premium plan par aapko Gmail support milega, aur{" "}
-            <b className="text-foreground">Max Pro</b> par team se seedha call/WhatsApp par baat kar sakte hain.
+            The support desk is not included in the free plan. Any premium plan gives you email support, and{" "}
+            <b className="text-foreground">Max Pro</b> lets you reach the team directly by call or WhatsApp.
           </p>
           <Link
             to="/subscribe"
@@ -111,10 +111,10 @@ function SupportPage() {
 
           {tier === "email" ? (
             <div className="surface p-4 text-xs font-medium text-muted-foreground">
-              <p className="text-sm font-bold text-foreground">Aapke plan mein email support hai</p>
+              <p className="text-sm font-bold text-foreground">Your plan includes email support</p>
               <p className="mt-1">
-                Gmail par apna order ID aur problem likh kar bhejein. Direct call/WhatsApp support sirf{" "}
-                <b className="text-foreground">Max Pro</b> plan mein milta hai.
+                Email us your order ID and the problem you are facing. Direct call and WhatsApp support is available
+                only on the <b className="text-foreground">Max Pro</b> plan.
               </p>
               <Link to="/subscribe" className="mt-2 inline-block font-bold text-primary underline">
                 Upgrade to Max Pro
@@ -134,7 +134,7 @@ function SupportPage() {
             {settings.note ? <p className="mt-2">{settings.note}</p> : null}
             <p className="mt-3 flex items-center gap-2 text-[11px] font-bold text-success">
               <ShieldCheck className="h-3.5 w-3.5" />
-              Hum kabhi bhi password ya OTP nahi maangte.
+              We never ask for your password or OTP.
             </p>
           </div>
         </div>

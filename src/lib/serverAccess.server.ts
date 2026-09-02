@@ -198,12 +198,17 @@ export async function markOrderStatus(input: {
       updated_at: now,
       ...(input.expireNow ? { expires_at: now } : {}),
     };
-    const query = admin.from("subscriptions").update(patch);
+    let query = admin.from("subscriptions").update(patch);
+    // A failed attempt must never cancel access that is already paid for.
+    // Razorpay sends `payment.failed` for earlier tries on the same order, so
+    // only rows that are still pending may be marked as failed.
+    if (input.status === "failed") query = query.neq("status", "active");
     await (input.paymentId
       ? query.eq("razorpay_payment_id", input.paymentId)
       : query.eq("razorpay_order_id", input.orderId ?? ""));
     return;
   }
+
   if (mode === "token") {
     await publicServerClient().rpc("server_mark_subscription", {
       _token: serverAccessToken(),

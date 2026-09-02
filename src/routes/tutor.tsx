@@ -144,7 +144,7 @@ function TutorPage() {
       <div className="space-y-3 pb-4">
         {messages.length === 0 && (
           <div className="surface p-4">
-            <p className="text-sm font-bold">Namaste {firstName}! 👋 Kya doubt hai aaj?</p>
+            <p className="text-sm font-bold">Hi {firstName}! 👋 What would you like help with today?</p>
             <p className="mt-1 text-xs text-muted-foreground">
               Maths, Science, SST or English — main step by step samjhata hoon, jaise ek dost.
             </p>

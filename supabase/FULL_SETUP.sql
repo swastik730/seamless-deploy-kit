@@ -707,8 +707,9 @@ BEGIN
   SET status = _status,
       expires_at = CASE WHEN _expire_now THEN _now ELSE expires_at END,
       updated_at = _now
-  WHERE (_payment_id IS NOT NULL AND razorpay_payment_id = _payment_id)
-     OR (_payment_id IS NULL AND _order_id IS NOT NULL AND razorpay_order_id = _order_id);
+  WHERE ((_payment_id IS NOT NULL AND razorpay_payment_id = _payment_id)
+      OR (_payment_id IS NULL AND _order_id IS NOT NULL AND razorpay_order_id = _order_id))
+    AND (_status NOT IN ('failed','pending') OR status <> 'active');
   RETURN true;
 END;
 $$;

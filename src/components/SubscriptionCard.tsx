@@ -81,7 +81,7 @@ export function SubscriptionCard({ className, showFeatures }: { className?: stri
               </li>
             ))}
             <li className="pt-1 text-[11px] font-semibold text-muted-foreground">
-              Aapke plan mein sirf yahi features shamil hain.
+              These are the only features included in your plan.
             </li>
           </ul>
         )}

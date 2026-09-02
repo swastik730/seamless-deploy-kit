@@ -68,7 +68,7 @@ async function confirmSignupEmail(username: string): Promise<void> {
 
 function friendlyAuthError(message: string): string {
   if (/confirm/i.test(message)) {
-    return "Account ban gaya par backend abhi email confirmation maang raha hai. Owner ko bolein: Supabase → Authentication → Sign In/Providers → Email → 'Confirm email' OFF karein.";
+    return "Your account was created, but the server still asks for email confirmation. Please ask the app owner to turn off 'Confirm email' in Supabase → Authentication → Sign In/Providers → Email.";
   }
   if (/invalid/i.test(message)) return "Username or password is incorrect.";
   return message;
@@ -145,8 +145,8 @@ function AuthPage() {
     const next: Record<string, string> = {};
 
     if (mode === "signin") {
-      if (!id) next["username"] = "Username daaliye.";
-      if (!password) next["password"] = "Password daaliye.";
+      if (!id) next["username"] = "Please enter your username.";
+      if (!password) next["password"] = "Please enter your password.";
     } else {
       const uErr = usernameError(id);
       if (uErr) next["username"] = uErr;
@@ -154,15 +154,15 @@ function AuthPage() {
         next["username"] = "This username is already taken — please try another one.";
       }
       const pErr = passwordError(password, id);
-      if (pErr) next["password"] = mode === "forgot" ? `Naya password: ${pErr.toLowerCase()}` : pErr;
+      if (pErr) next["password"] = mode === "forgot" ? `New password: ${pErr.charAt(0).toLowerCase()}${pErr.slice(1)}` : pErr;
       if (!answer.trim()) {
         next["answer"] =
           mode === "signup"
-            ? "Secret answer daaliye — password bhoolne par yahi kaam aayega."
-            : "Secret answer daaliye.";
+            ? "Please enter a secret answer — you will need it if you ever forget your password."
+            : "Please enter your secret answer.";
       }
       if (mode === "signup" && name.trim() && name.trim().length < 2) {
-        next["name"] = "Naam kam se kam 2 characters ka ho.";
+        next["name"] = "Your name must be at least 2 characters long.";
       }
     }
 
@@ -340,7 +340,7 @@ function AuthPage() {
               <FieldError>This username is already taken — please try another one.</FieldError>
             ) : mode === "signup" ? (
               <p className="mt-1 text-[11px] text-muted-foreground">
-                3–20 characters — letters, numbers, . aur _
+                3–20 characters — letters, numbers, dots and underscores
               </p>
             ) : null}
           </div>
@@ -358,7 +358,7 @@ function AuthPage() {
                 const pErr = passwordError(password, username);
                 if (pErr) setFieldErrors((prev) => ({ ...prev, password: pErr }));
               }}
-              placeholder={mode === "forgot" ? "Naya password (min 6)" : "Password (min 6 characters)"}
+              placeholder={mode === "forgot" ? "New password (at least 6 characters)" : "Password (min 6 characters)"}
               autoComplete={mode === "signin" ? "current-password" : "new-password"}
               className={fieldErrors["password"] ? inputErrorClass : inputClass}
             />
@@ -387,7 +387,7 @@ function AuthPage() {
                     setAnswer(e.target.value);
                     setFieldErrors((prev) => ({ ...prev, answer: "" }));
                   }}
-                  placeholder="Secret answer (yaad rakhiye)"
+                  placeholder="Secret answer (remember this)"
                   className={fieldErrors["answer"] ? inputErrorClass : inputClass}
                 />
                 {fieldErrors["answer"] && <FieldError>{fieldErrors["answer"]}</FieldError>}
@@ -453,7 +453,7 @@ function AuthPage() {
         You can study without an account — your progress stays saved on this device.
       </p>
       <Link to="/" className="mt-3 text-center text-xs font-semibold text-primary">
-        Continue without account
+        Continue without an account
       </Link>
     </div>
   );

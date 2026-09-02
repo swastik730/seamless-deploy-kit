@@ -3,10 +3,10 @@
 export const USERNAME_DOMAIN = "boardbuddy.app";
 
 export const RECOVERY_QUESTIONS = [
-  "Aapke best friend ka naam?",
-  "Aapke school ka naam?",
-  "Aapka favourite subject?",
-  "Aapke pet / favourite animal ka naam?",
+  "What is your best friend's name?",
+  "What is the name of your school?",
+  "What is your favourite subject?",
+  "What is the name of your pet or favourite animal?",
 ];
 
 export function normalizeUsername(value: string): string {
@@ -17,26 +17,26 @@ export function isValidUsername(value: string): boolean {
   return /^[a-z0-9._]{3,20}$/.test(normalizeUsername(value));
 }
 
-/** Field-level username check — returns a Hinglish message, or null when valid. */
+/** Field-level username check — returns a message, or null when valid. */
 export function usernameError(value: string): string | null {
   const v = normalizeUsername(value);
-  if (!v) return "Username daaliye.";
-  if (v.includes(" ")) return "Username mein space nahi ho sakta.";
-  if (v.length < 3) return "Username kam se kam 3 characters ka ho.";
-  if (v.length > 20) return "Username 20 characters se zyada nahi ho sakta.";
-  if (!/^[a-z0-9._]+$/.test(v)) return "Sirf letters, numbers, dot (.) aur underscore (_) allowed hain.";
-  if (!/^[a-z0-9]/.test(v)) return "Username letter ya number se shuru hona chahiye.";
+  if (!v) return "Please enter a username.";
+  if (v.includes(" ")) return "A username cannot contain spaces.";
+  if (v.length < 3) return "A username must be at least 3 characters long.";
+  if (v.length > 20) return "A username cannot be longer than 20 characters.";
+  if (!/^[a-z0-9._]+$/.test(v)) return "Only letters, numbers, dots (.) and underscores (_) are allowed.";
+  if (!/^[a-z0-9]/.test(v)) return "A username must start with a letter or a number.";
   return null;
 }
 
-/** Field-level password check — returns a Hinglish message, or null when valid. */
+/** Field-level password check — returns a message, or null when valid. */
 export function passwordError(value: string, username?: string): string | null {
-  if (!value) return "Password daaliye.";
-  if (value.length < 6) return "Password kam se kam 6 characters ka ho.";
-  if (value.length > 72) return "Password 72 characters se zyada nahi ho sakta.";
-  if (/\s/.test(value)) return "Password mein space nahi ho sakta.";
+  if (!value) return "Please enter a password.";
+  if (value.length < 6) return "Your password must be at least 6 characters long.";
+  if (value.length > 72) return "Your password cannot be longer than 72 characters.";
+  if (/\s/.test(value)) return "Your password cannot contain spaces.";
   if (username && normalizeUsername(value) === normalizeUsername(username)) {
-    return "Password username jaisa nahi ho sakta.";
+    return "Your password cannot be the same as your username.";
   }
   return null;
 }

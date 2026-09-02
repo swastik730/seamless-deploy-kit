@@ -3,7 +3,7 @@
  *
  * Razorpay ke checkout ke baad student yahan aata hai. Yahan par thank-you
  * message, plan ki poori detail, payment/order id aur validity dikhti hai —
- * sab kuch live Supabase (`subscriptions` + `plans` + `my_entitlement`) se.
+ * everything comes live from Supabase (`subscriptions` + `plans` + `my_entitlement`) se.
  */
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
@@ -144,8 +144,8 @@ function SuccessPage() {
           </h1>
           <p className="mt-1 text-sm font-bold text-success">Payment successful — premium unlocked 🎉</p>
           <p className="mx-auto mt-2 max-w-sm text-xs font-medium text-muted-foreground">
-            Thank you for joining BoardBuddy Premium{planName ? ` (${planName})` : ""}. Aapka plan turant active ho gaya
-            hai — neeche dekhein aapke plan mein exactly kya-kya khula hai.
+            Thank you for joining BoardBuddy Premium{planName ? ` (${planName})` : ""}. Your plan is active right
+            away — here is exactly what it unlocks for you.
           </p>
         </div>
 
@@ -183,7 +183,7 @@ function SuccessPage() {
             ))}
           </ul>
           <p className="mt-3 rounded-lg bg-muted/60 p-2 text-[11px] font-bold text-muted-foreground">
-            Aapko bilkul yahi milega — is list se na kuch extra, na kuch kam.
+            This is exactly what you get — nothing more, nothing less.
           </p>
         </section>
       )}
@@ -206,7 +206,7 @@ function SuccessPage() {
             ))}
           </ul>
           <Link to="/subscribe" className="mt-3 inline-block text-[11px] font-bold text-primary underline">
-            Upgrade karke ye bhi unlock karein
+            Upgrade to unlock these as well
           </Link>
         </section>
       )}
@@ -231,11 +231,11 @@ function SuccessPage() {
       </div>
 
       <p className="mt-4 text-center text-[11px] text-muted-foreground">
-        Koi dikkat ho to{" "}
+        Facing any problem? Message{" "}
         <Link to="/support" className="text-primary underline">
           support
         </Link>{" "}
-        par message karein · {" "}
+        · {" "}
         <Link to="/subscribe" className="text-primary underline">
           all plans
         </Link>

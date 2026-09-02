@@ -62,8 +62,8 @@ function FailedPage() {
             {reason ?? "The payment was not completed."}
           </p>
           <p className="mx-auto mt-2 max-w-sm text-xs font-medium text-muted-foreground">
-            Ghabraiye mat — aapke paise nahi kate hain. Agar bank se amount kata bhi hai to Razorpay use 5–7 working
-            days mein automatically wapas kar deta hai. Neeche se dobara try kar sakte hain.
+            Don't worry — you have not been charged. If your bank did debit the amount, Razorpay refunds it
+            automatically within 5–7 working days. You can try again below.
           </p>
         </div>
 
@@ -107,12 +107,12 @@ function FailedPage() {
           <li>• UPI app ya bank ka OTP time out ho gaya.</li>
           <li>• Card par online / international payment band hai.</li>
           <li>• Account mein amount se kam balance tha.</li>
-          <li>• Internet beech mein cut gaya ya checkout window band ho gayi.</li>
+          <li>• The internet connection dropped, or the checkout window was closed.</li>
         </ul>
         {supportTier === "none" ? (
           <p className="mt-3 text-[11px] font-semibold text-muted-foreground">
-            Note: payment ke liye alag se support desk nahi hai — dobara try karein. Support desk premium plans ke saath
-            aata hai (Max Pro par direct contact).
+            Note: there is no separate support desk for payments — please try again. The support desk comes with
+            premium plans (Max Pro includes direct contact).
           </p>
         ) : null}
         <p className="mt-3 flex items-center gap-2 text-[11px] font-bold text-success">

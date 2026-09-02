@@ -18,14 +18,20 @@ export function WelcomeGate({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [hydrated, setHydrated] = useState(false);
   const [skipped, setSkipped] = useState(true);
+  // If the auth check is slow (or unavailable offline), stop waiting after a moment
+  // so a first-time visitor is never left staring at the app without a choice.
+  const [waited, setWaited] = useState(false);
 
   useEffect(() => {
     setSkipped(window.localStorage.getItem(SKIP_KEY) === "1");
     setHydrated(true);
+    const timer = setTimeout(() => setWaited(true), 1200);
+    return () => clearTimeout(timer);
   }, []);
 
   const isOpenPath = OPEN_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-  const show = hydrated && ready && !user && !skipped && !isOpenPath;
+  const show = hydrated && (ready || waited) && !user && !skipped && !isOpenPath;
+
 
   if (!show) return <>{children}</>;
 

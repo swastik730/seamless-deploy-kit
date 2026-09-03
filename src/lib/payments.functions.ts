@@ -12,7 +12,7 @@ import {
 
 export const startCheckout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ planId: z.string().min(1) }).parse(data))
+  .validator((data: unknown) => z.object({ planId: z.string().min(1) }).parse(data))
   .handler(async ({ data, context }) => {
     // Expected states are returned, not thrown: a thrown error here surfaces as an
     // app runtime error/blank screen instead of a friendly notice on the plans page.
@@ -54,7 +54,7 @@ export const startCheckout = createServerFn({ method: "POST" })
 
 export const confirmCheckout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         planId: z.string().min(1),

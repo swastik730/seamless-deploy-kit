@@ -15,7 +15,7 @@ export const getAiSettings = createServerFn({ method: "GET" })
 
 export const saveAiSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         provider: providerSchema,
@@ -44,7 +44,7 @@ export const saveAiSettings = createServerFn({ method: "POST" })
 
 export const verifyAiKey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         provider: providerSchema,
@@ -61,7 +61,7 @@ export const verifyAiKey = createServerFn({ method: "POST" })
 
 export const verifyRazorpayKeys = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         keyId: z.string().max(200).optional(),

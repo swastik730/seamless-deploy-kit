@@ -5,7 +5,7 @@ import { askTutorAI } from "./tutor.server";
 
 export const askTutor = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z
       .object({
         messages: z

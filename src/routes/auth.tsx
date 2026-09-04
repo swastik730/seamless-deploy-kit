@@ -486,6 +486,8 @@ function AuthPage() {
       <Link to="/" className="mt-3 text-center text-xs font-semibold text-primary">
         Continue without an account
       </Link>
+      </div>
     </div>
+
   );
 }

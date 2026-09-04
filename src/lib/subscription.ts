@@ -134,8 +134,14 @@ export function useEntitlement() {
       return;
     }
     setLoading(true);
-    void supabase.rpc("my_entitlement").then(({ data }) => {
+    void supabase.rpc("my_entitlement").then(({ data, error }) => {
       if (!active) return;
+      // A failed read (offline / transient network error) must never look like
+      // "no subscription" — keep the last known good state instead.
+      if (error) {
+        setLoading(false);
+        return;
+      }
       const row = (data as Entitlement[] | null)?.[0] ?? null;
       setEntitlement(row);
       setLoading(false);

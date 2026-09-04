@@ -76,7 +76,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
                     to={to}
                     preload="render"
                     className={cn(
-                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors",
+                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors 2xl:py-3.5 2xl:text-base",
                       active
                         ? "bg-primary-soft text-primary"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",

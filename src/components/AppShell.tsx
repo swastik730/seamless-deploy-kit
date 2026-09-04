@@ -60,9 +60,9 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-2xl flex-col lg:max-w-7xl lg:flex-row lg:gap-6 lg:px-6">
+    <div className="mx-auto flex min-h-screen w-full max-w-2xl flex-col lg:max-w-7xl lg:flex-row lg:gap-8 lg:px-6 2xl:max-w-[1680px] 2xl:gap-12 2xl:px-12">
       {/* Desktop / laptop sidebar — hidden on phones and tablets */}
-      <aside className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col lg:gap-1 lg:py-6">
+      <aside className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col lg:gap-1 lg:py-6 2xl:w-72 2xl:py-10">
         <Link to="/" className="mb-4 px-2">
           <BrandMark />
         </Link>
@@ -76,7 +76,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
                     to={to}
                     preload="render"
                     className={cn(
-                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors",
+                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors 2xl:py-3.5 2xl:text-base",
                       active
                         ? "bg-primary-soft text-primary"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",

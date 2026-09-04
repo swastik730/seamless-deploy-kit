@@ -271,26 +271,57 @@ function AuthPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-5 py-10">
-      <div className="mb-6 text-center">
+    <div className="min-h-screen w-full bg-background lg:grid lg:grid-cols-[1.05fr_1fr] xl:grid-cols-[1.15fr_1fr]">
+      {/* Brand panel — desktop and Smart TV only */}
+      <aside className="hidden lg:flex lg:flex-col lg:justify-center lg:gap-8 lg:bg-primary-soft lg:px-14 lg:py-16 xl:px-20 2xl:px-28">
         <Link to="/" className="inline-block">
+          <BrandMark />
+        </Link>
+        <div>
+          <h2 className="text-4xl font-extrabold leading-tight tracking-tight xl:text-5xl">
+            Prepare for your Class 10 boards with a plan that adapts to you.
+          </h2>
+          <p className="mt-4 max-w-xl text-base text-muted-foreground xl:text-lg">
+            Chapter-wise lessons, NCERT solutions, timed mock tests and honest progress tracking —
+            all in one place, on every device you study from.
+          </p>
+        </div>
+        <ul className="grid max-w-xl gap-3 xl:text-base">
+          {[
+            "Learn every subject chapter by chapter",
+            "Practise with real board-pattern questions",
+            "Track weak chapters and improve them first",
+            "Your progress syncs safely to the cloud",
+          ].map((line) => (
+            <li key={line} className="flex items-start gap-3 text-sm font-semibold xl:text-base">
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+              {line}
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-5 py-10 lg:max-w-lg lg:px-10 xl:max-w-xl">
+      <div className="mb-6 text-center lg:text-left">
+        <Link to="/" className="inline-block lg:hidden">
           <BrandMark className="justify-center" />
         </Link>
-        <h1 className="mt-5 text-2xl font-extrabold tracking-tight">
+        <h1 className="mt-5 text-2xl font-extrabold tracking-tight lg:mt-0 lg:text-3xl xl:text-4xl">
           {mode === "signin"
             ? "Welcome back"
             : mode === "signup"
               ? "Create your account"
               : "Reset your password"}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-sm text-muted-foreground lg:text-base">
           {mode === "forgot"
             ? "Set a new password using your username and secret answer."
             : "Just a username and password — no email needed."}
         </p>
       </div>
 
-      <div className="surface p-5">
+      <div className="surface p-5 lg:p-7">
+
         <form onSubmit={submit} noValidate className="space-y-3">
           {mode === "signup" && (
             <div>
@@ -455,6 +486,8 @@ function AuthPage() {
       <Link to="/" className="mt-3 text-center text-xs font-semibold text-primary">
         Continue without an account
       </Link>
+      </div>
     </div>
+
   );
 }

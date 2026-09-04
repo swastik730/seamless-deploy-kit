@@ -134,8 +134,14 @@ export function useEntitlement() {
       return;
     }
     setLoading(true);
-    void supabase.rpc("my_entitlement").then(({ data }) => {
+    void supabase.rpc("my_entitlement").then(({ data, error }) => {
       if (!active) return;
+      // A failed read (offline / transient network error) must never look like
+      // "no subscription" — keep the last known good state instead.
+      if (error) {
+        setLoading(false);
+        return;
+      }
       const row = (data as Entitlement[] | null)?.[0] ?? null;
       setEntitlement(row);
       setLoading(false);
@@ -283,8 +289,15 @@ export function useSubscriptionStatus(): SubscriptionStatus {
       isMax,
     };
   }
-  if (last) {
+  // Only call it "Expired" when a real past expiry date exists. A subscription
+  // row with a future expiry but no entitlement yet means the read is still
+  // settling, so show the loading state instead of a wrong "Expired" badge.
+  if (last?.expires_at) {
     const expiredPlan = plans.find((p) => p.id === last.plan_id) ?? null;
+    const past = new Date(last.expires_at).getTime() <= Date.now();
+    if (!past) {
+      return { state: "loading", planName: null, planFeatures: [], tier: null, expiresAt: null, daysLeft: null, isMax: false };
+    }
     return {
       state: "expired",
       planName: expiredPlan?.name ?? last.plan_id,

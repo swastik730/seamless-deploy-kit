@@ -289,8 +289,15 @@ export function useSubscriptionStatus(): SubscriptionStatus {
       isMax,
     };
   }
-  if (last) {
+  // Only call it "Expired" when a real past expiry date exists. A subscription
+  // row with a future expiry but no entitlement yet means the read is still
+  // settling, so show the loading state instead of a wrong "Expired" badge.
+  if (last?.expires_at) {
     const expiredPlan = plans.find((p) => p.id === last.plan_id) ?? null;
+    const past = new Date(last.expires_at).getTime() <= Date.now();
+    if (!past) {
+      return { state: "loading", planName: null, planFeatures: [], tier: null, expiresAt: null, daysLeft: null, isMax: false };
+    }
     return {
       state: "expired",
       planName: expiredPlan?.name ?? last.plan_id,

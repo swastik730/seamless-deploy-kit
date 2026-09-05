@@ -6,7 +6,6 @@ import { PageHero } from "@/components/PageHero";
 import heroProgress from "@/assets/hero-progress.webp";
 import { TOTAL_CHAPTERS, getSubject } from "@/lib/curriculum";
 import { useQuestionPool } from "@/lib/questions";
-import { useAppState } from "@/lib/store";
 import { useWeakChapters } from "@/lib/weakChapters";
 import {
   buildDailyQueue,
@@ -73,7 +72,6 @@ function TaskLink({ task, children }: { task: CoachTask; children: React.ReactNo
 
 function Coach() {
   const plan = useCoachPlan();
-  const state = useAppState();
   const { pool } = useQuestionPool();
   const weak = useWeakChapters(pool);
   const untouched = useUntouchedChapters(pool);
@@ -224,7 +222,7 @@ function Coach() {
       )}
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        Your plan is saved on this device. Signed in with {state.name}? Your attempts sync to your account too.
+        Your plan is saved on this device. When you are signed in, your attempts also sync to your account.
       </p>
     </AppShell>
   );

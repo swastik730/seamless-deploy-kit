@@ -80,6 +80,14 @@ const GROUPS: {
     heading: "Progress",
     items: [
       {
+        to: "/coach",
+        label: "Revision Coach",
+        hint: "Free daily study plan built from your weak areas",
+        icon: Compass,
+        tint: "bg-hero-green/15 text-hero-green",
+        badge: "Free",
+      },
+      {
         to: "/exam",
         label: "Exam Hub",
         hint: "Grand Test, Exam Day Simulator and weak-chapter drills",

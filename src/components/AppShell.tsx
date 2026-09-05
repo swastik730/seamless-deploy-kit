@@ -18,6 +18,7 @@ const NAV = [
   { to: "/practice", label: "Practice", icon: PenLine },
   { to: "/tests", label: "Tests", icon: Timer },
   { to: "/exam", label: "Exam Hub", icon: ShieldCheck },
+  { to: "/coach", label: "Revision Coach", icon: Compass },
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/more", label: "More", icon: LayoutGrid },
 ] as const;

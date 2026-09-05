@@ -15,6 +15,7 @@ import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as CoachRouteImport } from './routes/coach'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as ModelsRouteImport } from './routes/models'
 import { Route as MoreRouteImport } from './routes/more'
@@ -80,6 +81,11 @@ const BookmarksRoute = BookmarksRouteImport.update({
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoachRoute = CoachRouteImport.update({
+  id: '/coach',
+  path: '/coach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeaderboardRoute = LeaderboardRouteImport.update({
@@ -271,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/bookmarks': typeof BookmarksRoute
   '/calendar': typeof CalendarRoute
+  '/coach': typeof CoachRoute
   '/leaderboard': typeof LeaderboardRoute
   '/models': typeof ModelsRoute
   '/more': typeof MoreRoute
@@ -315,6 +322,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/bookmarks': typeof BookmarksRoute
   '/calendar': typeof CalendarRoute
+  '/coach': typeof CoachRoute
   '/leaderboard': typeof LeaderboardRoute
   '/models': typeof ModelsRoute
   '/more': typeof MoreRoute
@@ -359,6 +367,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/bookmarks': typeof BookmarksRoute
   '/calendar': typeof CalendarRoute
+  '/coach': typeof CoachRoute
   '/leaderboard': typeof LeaderboardRoute
   '/models': typeof ModelsRoute
   '/more': typeof MoreRoute
@@ -405,6 +414,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bookmarks'
     | '/calendar'
+    | '/coach'
     | '/leaderboard'
     | '/models'
     | '/more'
@@ -449,6 +459,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bookmarks'
     | '/calendar'
+    | '/coach'
     | '/leaderboard'
     | '/models'
     | '/more'
@@ -492,6 +503,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bookmarks'
     | '/calendar'
+    | '/coach'
     | '/leaderboard'
     | '/models'
     | '/more'
@@ -537,6 +549,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BookmarksRoute: typeof BookmarksRoute
   CalendarRoute: typeof CalendarRoute
+  CoachRoute: typeof CoachRoute
   LeaderboardRoute: typeof LeaderboardRoute
   ModelsRoute: typeof ModelsRoute
   MoreRoute: typeof MoreRoute
@@ -604,6 +617,13 @@ declare module '@tanstack/react-router' {
       path: '/calendar'
       fullPath: '/calendar'
       preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coach': {
+      id: '/coach'
+      path: '/coach'
+      fullPath: '/coach'
+      preLoaderRoute: typeof CoachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leaderboard': {
@@ -902,6 +922,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BookmarksRoute: BookmarksRoute,
   CalendarRoute: CalendarRoute,
+  CoachRoute: CoachRoute,
   LeaderboardRoute: LeaderboardRoute,
   ModelsRoute: ModelsRoute,
   MoreRoute: MoreRoute,

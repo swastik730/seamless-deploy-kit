@@ -5,6 +5,7 @@ import {
   Boxes,
   CalendarDays,
   ChevronRight,
+  Compass,
   GraduationCap,
   Headset,
   LineChart,

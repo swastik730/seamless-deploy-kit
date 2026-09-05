@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, BookOpen, Boxes, Cloud, CloudOff, GraduationCap, Home, Loader2, LayoutGrid, Moon, PenLine, ShieldCheck, Sparkles, Sun, Timer, TrendingUp, User } from "lucide-react";
+import { Bell, BookOpen, Boxes, Cloud, CloudOff, Compass, GraduationCap, Home, Loader2, LayoutGrid, Moon, PenLine, ShieldCheck, Sparkles, Sun, Timer, TrendingUp, User } from "lucide-react";
 import type { ReactNode } from "react";
 import logoUrl from "@/assets/logo.webp";
 import { AdBanner, AdInterstitial } from "@/components/ads/AdManager";
